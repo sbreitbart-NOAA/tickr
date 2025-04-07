@@ -1,0 +1,119 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# tickr
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+This is a small package to provide consistent tick marks for plotting `ggplot2` figures. 
+It provides breaks and labels for ggplot2 without requiring ggplot2 to be installed.
+
+## Installation
+
+You can install the development version of `tickr` from GitHub:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("BenWilliams-NOAA/tickr")
+```
+
+## Example
+
+```{r setup}
+library(tickr)
+library(ggplot2)
+library(dplyr)
+```
+
+Some basic examples of how to use the `tickr` package.
+
+```{r}
+# Create a data.frame
+df <- data.frame(year = 2000:2020,
+                 spawning_biomass = rnorm(21,100, 0.25))
+
+# explore tickr output
+tickr(df, var=year)
+tickr(df, var=year, by=2)
+tickr(df, var=year, by=5, var_min = 1998, var_max = 2024, lab_start = 1998, lab_end = 2017)
+tickr(df, var=year, by=5, var_min = 1998, var_max = 2024, lab_start = 1998, lab_end = 2017)
+
+# explore plotting options
+# default ggplot
+ggplot(df, aes(year, spawning_biomass)) + 
+  geom_line() +
+  geom_point()
+
+# a tick mark for every year
+ggplot(df, aes(year, spawning_biomass)) + 
+  geom_line() +
+  geom_point() +
+  scale_x_tickr(data=df, var=year)
+
+# a tick mark for every year & label every 2nd year
+ggplot(df, aes(year, spawning_biomass)) + 
+  geom_line() +
+  geom_point() +
+  scale_x_tickr(data=df, var=year, by = 2)
+
+# determine the years that are labeled
+ggplot(df, aes(year, spawning_biomass)) + 
+  geom_line() +
+  geom_point() +
+  scale_x_tickr(data=df, var=year, by = 5, 
+                var_min = 1997, 
+                var_max = 2024, 
+                lab_start = 1997) 
+
+# determine the years that are labeled
+ggplot(df, aes(year, spawning_biomass)) + 
+  geom_line() +
+  geom_point() +
+  scale_x_tickr(data=df, var=year, by = 2, 
+                var_min = 2010, 
+                lab_start = 2010)
+
+# show future years
+ggplot(df, aes(year, spawning_biomass)) + 
+  geom_line() +
+  geom_point() +
+  scale_x_tickr(data=df, var=year, by = 5, 
+                var_min = 2015, 
+                var_max = 2026, 
+                lab_start = 2015, 
+                lab_end = 2026) +
+  expand_limits(x = c(1998, 2026)) 
+
+```
+
+The same general approach is available for y axes as well.
+
+```{r}
+df <- expand.grid(age = 1:10,
+                 year = 2000:2009) %>% 
+  dplyr::mutate(value = rnorm(100, 1, 1))
+
+df %>% 
+  ggplot(aes(year, age, size=value)) + 
+  geom_point() +
+  scale_size_area() +
+  scale_x_tickr(data=df, var=year, by=2, var_max = 2012, lab_end = 2012) +
+  scale_y_tickr(data=df, var=age, by=2) +
+  expand_limits(y=0, x=2012)
+
+
+```
+
