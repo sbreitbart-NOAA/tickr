@@ -4,6 +4,13 @@
 # tickr
 
 <!-- badges: start -->
+
+<figure>
+<img src="https://img.shields.io/cran/v/tickr"
+alt="CRAN/METACRAN Version" />
+<figcaption aria-hidden="true">CRAN/METACRAN Version</figcaption>
+</figure>
+
 <!-- badges: end -->
 
 This is a small package to provide consistent tick marks for plotting
