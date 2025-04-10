@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # tickr
 
 <!-- badges: start -->
+![CRAN/METACRAN Version](https://img.shields.io/cran/v/tickr)
 <!-- badges: end -->
 
 This is a small package to provide consistent tick marks for plotting `ggplot2` figures. 
